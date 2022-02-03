@@ -30,12 +30,20 @@ export default function NoteEditor({noteId, initialTitle, initialBody}) {
 
   async function handleSave() {
     const payload = {title, body};
+
+    if (title === 'Untitled') {
+      startNavigating(() => {
+        setLocation('/');
+      });
+      return;
+    }
     const requestedLocation = {
       selectedId: noteId,
       isEditing: false,
       searchText: location.searchText,
     };
     const response = await saveNote(payload, requestedLocation);
+
     navigate(response);
   }
 
